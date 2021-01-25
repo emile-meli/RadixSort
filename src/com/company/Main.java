@@ -15,14 +15,25 @@ public class Main {
         //Transform integer array to string list
         List<String> stringList = StringUtil.intArrayToString(arr);
         //Complete shorter strings with preceding zeros
-        StringUtil.addZeros(stringList);
+        List<String> paddedList = new ArrayList<>();
+        int maxSize = 0;
+        for(String string: stringList) {
+            if (string.length() > maxSize) {
+                maxSize = string.length();
+            }
+        }
+        for (String s : stringList) {
+            String newString = StringUtil.lpad(s, '0', maxSize);
+            paddedList.add(newString);
+
+        }
         //Start iterations over positions of the strings
-        for(int i = stringList.get(0).length() - 1; i >= 0; i--){
-            StringUtil.listToHashMap(hashMap,stringList, i);
-            StringUtil.hashMapToList(hashMap,stringList);
+        for(int i = paddedList.get(0).length() - 1; i >= 0; i--){
+            StringUtil.listToHashMap(hashMap,paddedList, i);
+            StringUtil.hashMapToList(hashMap,paddedList);
         }
 
-        return stringList;
+        return paddedList;
     }
 
 
@@ -31,5 +42,10 @@ public class Main {
 
         int[] arr = {16321, 293, 9, 12, 283, 1, 238, 473, 19284, 1284};
         System.out.println(radixSort(arr).toString());
+
+        System.out.println(StringUtil.ltrim("    Auto   "));
+        System.out.println(StringUtil.rtrim("    Auto   "));
+        System.out.println(StringUtil.trim("    Auto   "));
+        System.out.println(StringUtil.indexOfN("John|Paul|George|Ringo", '|', 2));
     }
 }

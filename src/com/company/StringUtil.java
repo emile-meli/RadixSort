@@ -3,6 +3,8 @@ package com.company;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringUtil {
 
@@ -14,23 +16,17 @@ public class StringUtil {
         return stringList;
     }
 
-    public static void addZeros(List<String> stringList){
-        int maxSize = 0;
-        for(String string: stringList) {
-            if (string.length() > maxSize) {
-                maxSize = string.length();
-            }
-        }
+    public static String lpad(String s, char padChar, int padNumber){
+        int currentStringLength = s.length();
+        for(int j = padNumber; j > currentStringLength; j--) s = padChar + s;
+        return s;
+    }
 
-        for(int i = 0; i < stringList.size(); i++){
-            StringBuilder currentString = new StringBuilder(stringList.get(i));
-            int currentStringLength = currentString.length();
-            for(int j = maxSize; j > currentStringLength; j--){
-                currentString.insert(0, "0");
-            }
-            stringList.set(i, currentString.toString());
-        }
-
+    public static String rpad(String s, char padChar, int padNumber){
+        int currentStringLength = s.length();
+        for(int j = padNumber; j > currentStringLength; j--) s = s + padChar;
+        System.out.println(s);
+        return s;
     }
 
     public static void listToHashMap(Map<Integer, List<String>> hashMap, List<String> stringList, int position){
@@ -47,5 +43,35 @@ public class StringUtil {
         for(Integer key: hashMap.keySet()){
             stringList.addAll(hashMap.get(key));
         }
+    }
+
+    public static String ltrim(String s){
+        return s.replaceAll("^\\s+","");
+
+    }
+
+    public static String rtrim(String s){
+        return s.replaceAll("\\s+$", "");
+    }
+
+    public static String trim(String s){
+        return s.replaceAll("^\\s+|\\s+$","");
+    }
+
+    public static int indexOfN(String s, char c, int n){
+        Pattern pattern = Pattern.compile(".*[" + c + "].*");
+        Matcher matcher = pattern.matcher(s);
+        if(matcher.matches()){
+            int charCount = 0;
+            for(int i = 0; i < s.length(); i++) {
+                if (s.charAt(i) == c) {
+                    charCount++;
+                    if (charCount == n) {
+                        return i;
+                    }
+                }
+            }
+        }
+        return  -1;
     }
 }
